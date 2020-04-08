@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>停车收费一码付</title>
+        <link rel="stylesheet" type="text/css" href="css/estOrg.css">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            body{
+                background: #FFFFFF;
+            }
+            ul,ol{
+                list-style: none;
+            }
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            #container{
+                width: 100%;
+                height: 100%;
+                padding-top: 50px;
+            }
+            #carLicenseBox{
+                width: 80%;
+                /*height: 100%;*/
+                border-radius: 10px;
+                margin: 0 auto;
+                padding-bottom: 20px;
+                overflow: hidden;
+                background-color: #ffffff;
+            }
+            #carLicenseBox .carLicenseTitle{
+                width: 100%;
+                height: 20px;
+                background-color: #fff;
+                text-align: center;
+                line-height: 70px;
+                color: black;
+                font-size: 18px;
+            }
+            #carLicenseBox .carLicenseMain{
+                width: 100%;
+                height: 120px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            #carLicenseBox .carLicenseMain ul{
+                width: 100%;
+                height: 36px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+            #carLicenseBox .carLicenseMain ul li{
+                width: 34px;
+                height: 40px;
+                border: 1px solid #cccccc;
+                text-align: center;
+                line-height: 40px;
+                float: left;
+				margin: 2px;
+            }
+            #carLicenseBox .carLicenseMain ul li:last-of-type{
+                margin: 6px;
+            }
+            #carLicenseBox .carLicenseMain ul li.active{
+                border: 2px solid #f3483e;
+            }
+            #carLicenseBox .carLicenseMain ul li.xinnengyuan{
+                background: url(../lib/img/xinnengyuan32.png) no-repeat center;
+                background-size: 100% 100%;
+                border: 2px dashed lightgreen;
+				
+            }
+            #carLicenseBox .submitBtn{
+                width: 80%;
+                height: 45px;
+                background-color: #f3483e;
+                border: none;
+                border-radius: 6px;
+                text-align: center;
+                line-height: 45px;
+                color: white;
+                font-size: 20px;
+                margin-left: 10%;
+            }
+            #keyboardBox{
+                width: 100%;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                z-index: 999;
+            }
+            #keyboardBox .provienceBox,#keyboardBox .textBox{
+                width: 100%;
+                background-color: #D0D5D9;
+                padding-top: 10px;
+                padding-bottom: 4px;
+            }
+            #keyboardBox .provienceBox ul,#keyboardBox .textBox ul{
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+                margin-top: 10px;
+            }
+            #keyboardBox .provienceBox ul:first-of-type, #keyboardBox .textBox ul:first-of-type{
+                margin-top: 0px;
+            }
+            #keyboardBox .provienceBox ul li,#keyboardBox .textBox ul li{
+                width: 30px;
+                height: 38px;
+                border-radius: 6px;
+                text-align: center;
+                line-height: 38px;
+                float: left;
+                background-color: #ffffff;
+            }
+            #keyboardBox .textBox{
+                display: none;
+            }
+            #keyboardBox .provienceBox ul .changeContentBtn,#keyboardBox .provienceBox ul .deleteBtn,#keyboardBox .textBox ul .changeContentBtn,#keyboardBox .textBox ul .deleteBtn{
+                width: 50px;
+                height: 40px;
+                background-color: #ACB3BB;
+                text-align: center;
+                line-height: 40px;
+            }
+            #keyboardBox .provienceBox ul .deleteBtn img,#keyboardBox .textBox ul .deleteBtn img{
+                width: 23px;
+                height: 16px;
+                margin: 0px;
+                margin-top: 12px;
+            }
+            
+            #shut,#shuta{
+				 margin-bottom:10px;
+			}
+            .img-jpg{
+                width: 80%;
+                margin: 0 auto;
+            }
+            .img-jpg img{
+                width: 100%;
+            }
+            .textBox ul li:click{
+                background: #0088CC;
+            }
+             @keyframes scaleDraw {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+            0%{
+                transform: scale(1);  /*开始为原始大小*/
+            }
+            25%{
+                transform: scale(1.3); /*放大1.1倍*/
+            }
+            50%{
+                transform: scale(1.3);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+        .activeKey{
+            background-color: #ACB3BB !important;
+            /*background: #999 !important;*/
+            opacity: 0.8;
+            color: #fff;
+            -webkit-animation-name: scaleDraw; /*关键帧名称*/
+            -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+            -webkit-animation-duration: 0.2s; /*动画所花费的时间*/
+        }
+		.new {
+		    color: #888;
+		    /* display: none; */
+		}
+        </style>
+    </head>
+    <body>
+    
+      <div class="container" style="background-color: #F7F7F7;">
+			<center style="margin-top:20px; margin-bottom: 10px;">
+				<img src="../lib/img/shanghu24.png" style="margin-bottom: 5px;">
+				<span style="font-size: 17px; margin-left: 2px;">停车场收费一码付</span>
+			</center>
+		</div>
+    
+        <div id="container">
+            <div id="carLicenseBox">
+                <div class="carLicenseTitle">
+                   <h4><span class="text-info">请输入车牌号</span></h4>
+                </div>
+                <div class="carLicenseMain">
+                    <ul>
+                        <li class="active">省</li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li class="xinnengyuan"></li>
+                    </ul>
+					<p class="help-block" align="center" style="margin-top: 10px;">(新能源汽车请点击虚线框后继续添加)</p>
+					<input type="hidden" id="openid" value=""  th:value="${openid}"> 
+                </div>
+				
+                <button class="submitBtn" id="submitBtn">确认并查询缴费信息</button>
+            </div>
+           
+            <!--键盘-->
+            <div id="keyboardBox">
+                <div class="provienceBox" id="provienceBox">
+                <div class="shut" id="shuta" style="float: right;margin-right: 10px;">
+                <span class="glyphicon glyphicon-chevron-down"></span>关闭</div>
+                    <ul>
+                        <li>京</li>
+                        <li>津</li>
+                        <li>渝</li>
+                        <li>沪</li>
+                        <li>冀</li>
+                        <li>晋</li>
+                        <li>辽</li>
+                        <li>吉</li>
+                        <li>黑</li>
+                        <li>赣</li>
+                    </ul>
+                    <ul>
+                    	<li>苏</li>
+                        <li>浙</li>
+                        <li>皖</li>
+                        <li>闽</li>
+                        <li>鲁</li>
+                        <li>豫</li>
+                        <li>鄂</li>
+                        <li>湘</li>
+                        <li>粤</li>
+                        <li>琼</li>
+                    </ul>
+                    <ul>
+                        <li>川</li>
+                        <li>贵</li>
+                        <li>云</li>
+                        <li>陕</li>
+                        <li>甘</li>
+                        <li>青</li>
+                        <li>蒙</li>
+                        <li>桂</li>
+                        <li>宁</li>
+                        <li>新</li>
+                    </ul>
+                    <ul>
+                        <li class="changeContentBtn other">ABC</li>
+                        <li>藏</li>
+                        <li>使</li>
+                        <li>领</li>
+                        <li>警</li>
+                        <li>学</li>
+                        <li>港</li>
+                        <li>澳</li>
+                        <li class="deleteBtn other">删除</li>
+                    </ul>
+                </div>
+                <div class="textBox" id="textBox">
+                <div class="shut" id="shut"style="float: right;margin-right: 10px;">
+                <span class="glyphicon glyphicon-chevron-down"></span>关闭</div>
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li>0</li>
+                    </ul>
+                    <ul>
+                        <li>Q</li>
+                        <li>W</li>
+                        <li>E</li>
+                        <li>R</li>
+                        <li>T</li>
+                        <li>Y</li>
+                        <li>U</li>
+                        <li>I</li>
+                        <li>O</li>
+                        <li>P</li>
+                    </ul>
+                    <ul>
+                        <li>A</li>
+                        <li>S</li>
+                        <li>D</li>
+                        <li>F</li>
+                        <li>G</li>
+                        <li>H</li>
+                        <li>J</li>
+                        <li>K</li>
+                        <li>L</li>
+                    </ul>
+                    <ul>
+                        <li class="changeContentBtn other">返回</li>
+                        <li>Z</li>
+                        <li>X</li>
+                        <li>C</li>
+                        <li>V</li>
+                        <li>B</li>
+                        <li>N</li>
+                        <li>M</li>
+                        <li class="deleteBtn other">删除</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+           	 // 获取键盘上的关闭按钮
+				 var oShut = $("#shut");
+				  // 获取地方简称的关闭按钮
+				 var oShuta = $("#shuta");
+				 // 点击关闭，隐藏键盘
+				  oShut.click(function () {
+				     $("#keyboardBox").hide()
+				});
+				// 点击关闭，隐藏键盘
+				oShuta.click(function () {
+				    $("#keyboardBox").hide()
+				});
+                //键盘隐藏，点击触发显示
+                $("#keyboardBox").hide()
+                $(".carLicenseMain").on("click",function(){
+                    $("#keyboardBox").show()
+                })
+                //键盘点击动画
+                $(".textBox ul li").each(function(){
+                    $(this).click(function(){
+                        $(this).addClass("activeKey")//添加动画效果
+                        $(this).siblings().removeClass("activeKey")//移除动画效果
+                        var interval=setTimeout(function(){//定时器及时清除自身动画效果
+                            $(this).removeClass("activeKey")
+                            window.clearInterval(interval)
+                        }.bind(this),200);
+                    })
+                })
+                var num = 6;//需要输入的车牌数
+                //切换键盘
+                $('.changeContentBtn').click(function(){
+                    $('li').siblings().removeClass("activeKey")
+                    if($(this).html()=='ABC'){
+                        $('#textBox').show();
+                        $('#provienceBox').hide();
+                    }else{
+                        $('#textBox').hide();
+                        $('#provienceBox').show();
+                    }
+                })
+                //新能源点击事件
+                $('.xinnengyuan').click(function(){
+                    num = 7;
+                    $(this).removeClass('xinnengyuan');
+                })
+                //获取当前车牌数字索引
+                function getIndex(){
+                    var index = 0;
+                    $('.carLicenseMain ul li').each(function(){
+                        var reg = new RegExp('active');
+                        if(reg.test($(this).attr('class'))){
+                            index = $(this).index();
+                        }
+                    })
+                    return index;
+                }
+                //自定义键盘处理函数
+                function keyboard(num,self){
+                    var index = getIndex();
+                    if(index<=num){
+                        if(index == num){
+                            $('.carLicenseMain ul li.active').html($(self).html());
+                        }else{
+                            $('.carLicenseMain ul li.active').html($(self).html()).removeClass('active').next().addClass('active');
+                        }
+                        $('#textBox').show();
+                        $('#provienceBox').hide();
+                    }
+                }
+                //省份键盘点击事件
+                $('#provienceBox ul li:not(.other)').click(function(){
+                    $(this).addClass("activeKey")//添加动画效果
+                    $(this).siblings().removeClass("activeKey")//移除动画效果
+                    var interval=setTimeout(function(){//定时器及时清除自身动画效果
+                        $(this).removeClass("activeKey")
+                        var self = this;
+                        keyboard(num,self);
+                        window.clearInterval(interval)
+                    }.bind(this),200);
+                    //省份点击后键盘切换
+                    //var self = this;
+                    //keyboard(num,self);
+                })
+                //文本键盘点击事件
+                $('#textBox ul li:not(.other)').click(function(){
+                    var self = this;
+                    keyboard(num,self);
+                })
+                //回退按钮点击事件
+                $('.deleteBtn').click(function(){
+                    var index = getIndex();
+                    if(index == num){
+                        if($('.carLicenseMain ul li.active').html() != ''){
+                            $('.carLicenseMain ul li.active').html('');
+                        }else{
+                            if(index == 7){
+                                $('.carLicenseMain ul li:last-of-type').addClass('xinnengyuan');
+                                num = 6;
+                            }
+                            $('.carLicenseMain ul li.active').removeClass('active').prev().addClass('active').html('');
+                        }
+                    }else if(index < num && index > 1){
+                        $('.carLicenseMain ul li.active').removeClass('active').prev().addClass('active').html('');
+                    }else if(index == 1){
+                        $('.carLicenseMain ul li.active').removeClass('active').prev().addClass('active').html('省');
+                    }
+                })
+				
+				//doPost提交事件
+					
+						function doPost(URL,PARAMS) { 
+							var temp = document.createElement("form");
+							temp.action = URL;
+							temp.method = "post";
+							temp.style.display = "none";
+							for (var x in PARAMS) {
+								var opt = document.createElement("textarea");
+								opt.name = x;
+								opt.value = PARAMS[x];
+								temp.appendChild(opt);
+							}
+						document.body.appendChild(temp);
+						temp.submit();
+					 return temp;
+					}
+                //提交按钮点击事件
+                $('#submitBtn').click(function(){
+                    var carNum=""
+                    $(".carLicenseMain ul li").each(function(index){
+                        carNum+=$(this).html()
+                    })
+                    //alert(carNum)
+					doPost('/aggpay/lay/Alishowcarfee',{car_num:carNum,openid:$('#openid').val()});
+                })
+            })
+        </script>
+    </body>
+</html>

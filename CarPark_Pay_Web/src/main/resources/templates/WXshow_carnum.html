@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>停车收费一码付</title>
+		<link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+		<script src="../lib/js/jquery-1.12.4.min.js"></script>
+		<script src="../lib/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			#span1{
+				font-size: 17px; 
+				font-family: "agency fb";
+				margin-left: 4px;
+			}
+			#span2{
+				font-size: 17px; 
+				font-family: "agency fb";
+				margin-left: 5px;
+			}
+			 #btn{
+                width: 80%;
+                height: 45px;
+                background-color: #f3483e;
+                border: none;
+                border-radius: 6px;
+                text-align: center;
+                line-height: 45px;
+                color: white;
+                font-size: 20px;    
+            }
+            #btn2{
+             width: 80%;
+                height: 45px;
+                background-color: lightblue;
+                border: none;
+                border-radius: 6px;
+                text-align: center;
+                line-height: 45px;
+                color: white;
+                font-size: 20px; 
+            }
+		</style>
+	</head>
+	<body>
+		
+		<div class="container" style="background-color: #F7F7F7;">
+			<center style="margin-top:20px; margin-bottom: 10px;">
+				<img src="../lib/img/shanghu24.png" style="margin-bottom: 5px;">
+				<span style="font-size: 17px; margin-left: 2px;">停车场收费一码付</span>
+			</center>
+		</div>
+
+				<div class="well well-sm" style="background-color:transparent;">
+<!-- 					<center><img src="../lib/img/jinbi96.png" style="margin-top:5px; margin-bottom: 5px;"></center> -->
+					<div  align = "center">
+						<h4><span class="text-info">请确认车牌号</span></h4>				
+						<input  text="text" readonly id="car_num" value=""  th:value="${car_num}" th:placeholder="${car_num}"  style="outline:0;border: 0; text-align:center;  font-size:20px;" > 	
+						<input  type="hidden" id="openid" value=""  th:value="${openid}"> 					
+					</div>
+					<p class="help-block" align="center">(核实无误后点击按钮查看停车费用)</p>	
+				</div>
+			
+			
+				<div class="btn-group btn-group-justified" role="group" align="center">
+					<div class="btn-group" role="group">
+						<p class="help-block" align="center">若非您本次车牌,或许您可以试试</p>	
+						<button  id="btn2" >更换其他车牌</button> 
+					</div>
+				</div> 
+				<br>
+				<div class="btn-group btn-group-justified" role="group" align="center">
+					<div class="btn-group" role="group">
+						<button  id="btn" >确认并查询缴费信息</button> 
+					</div>
+				</div> 
+			</div>
+		
+	</body>	
+	<script type="text/javascript">
+
+	/*
+
+	*功能： 模拟form表单的提交
+
+	*参数： url 跳转地址 params 参数 
+
+	 */
+	 $(document).ready(function(){
+			function doPost(URL,PARAMS) { 
+			    var temp = document.createElement("form");
+			    temp.action = URL;
+			    temp.method = "post";
+			    temp.style.display = "none";
+			    for (var x in PARAMS) {
+			        var opt = document.createElement("textarea");
+			        opt.name = x;
+			        opt.value = PARAMS[x];
+			        temp.appendChild(opt);
+			    }
+			    document.body.appendChild(temp);
+			    temp.submit();
+		   	 return temp;
+			}
+		 $("#btn").on("click",function(){
+			doPost('/aggpay/lay/wxshowcarfee',{car_num:$('#car_num').val(),openid:$('#openid').val()});
+	});
+		 $("#btn2").on("click",function(){
+				doPost('/aggpay/lay/wxShowtoWrite',{car_num:$('#car_num').val(),openid:$('#openid').val()});
+		});
+});
+
+	</script>
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tc_carfee">
+	<resultMap id="CARFEE_BaseResultMap" type="map">
+		<!-- <id column="cfsb" jdbcType="VARCHAR"
+			property="cfsb" />-->
+		<!-- column对应数据库中字段名，property对应实体类中名,进行转化 -->
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="car_num" jdbcType="VARCHAR" property="car_num" />
+		<result column="price" jdbcType="VARCHAR" property="price" />
+		<result column="start_time" jdbcType="VARCHAR" property="start_time" />
+		<result column="end_time" jdbcType="VARCHAR" property="end_time" />
+	</resultMap>
+
+	 <sql id="Base_Column_List">
+		his_paystatus, third_paystatus
+	</sql>
+    <!-- 数据库查询 -->
+    <select id="selectBycarnumAndtime" parameterType="map" resultMap="CARFEE_BaseResultMap">
+	    select id , price , car_num , start_time , end_time
+	    from car_fee_info
+	    <where>
+	     
+	       car_num = #{car_num,jdbcType=VARCHAR}
+	       
+	     
+	    </where>
+	</select>
+	
+	<!-- 数据库插入，不存在时插入，存在时更新数据  针对主键操作，本项目主键是cfsb，因此，当出现主键重复的插入时，将其信息改为更新插入-->
+	<!-- id:表示此段sql执行语句的唯一标识，也是接口的方法名称 -->
+	<!-- parameterType:表示该sql语句中需要传入的参数， 类型要与对应的接口方法的类型一致 -->
+	<!-- resultMap:定义出参，调用已定义的<resultMap>映射管理器的id值 -->
+	<insert id="insertOrder" parameterType="map">
+		insert into bz_pay_order
+		(recipel_num, pay_orderid, total_price,
+		patient_id,his_paystatus,third_paystatus,patient_name,
+		third_refundid,date,medical_type,pay_type,reserved,refund_status)
+		values
+		(#{cfsb,jdbcType=VARCHAR},
+		#{pay_orderid,jdbcType=VARCHAR},
+		#{hjje,jdbcType=CHAR},
+		#{brid,jdbcType=CHAR},
+		#{his_paystatus,jdbcType=CHAR}, 
+		#{third_paystatus,jdbcType=CHAR},
+		#{name,jdbcType=VARCHAR}, 
+		#{third_refundid,jdbcType=CHAR},
+		#{kdrq,jdbcType=CHAR},
+		#{yllb,jdbcType=CHAR},
+		#{zffs,jdbcType=CHAR},
+		#{reserved,jdbcType=CHAR},
+		#{refund_status,jdbcType=CHAR})
+		ON DUPLICATE KEY UPDATE <!--适用于病人重复扫码的情况， 当处方号重复时，由于数据库中已经存在之前插入的数据，避免重复，改为更新本条记录 -->
+		recipel_num = #{cfsb,jdbcType=VARCHAR},
+		pay_orderid = #{pay_orderid,jdbcType=VARCHAR},
+		total_price = #{hjje,jdbcType=CHAR},
+		patient_id = #{brid,jdbcType=CHAR},
+		his_paystatus = #{his_paystatus,jdbcType=CHAR}, 
+		third_paystatus = #{third_paystatus,jdbcType=CHAR},
+		patient_name = #{name,jdbcType=VARCHAR}, 
+		third_refundid = #{third_refundid,jdbcType=CHAR},
+		date = #{kdrq,jdbcType=CHAR},
+		medical_type = #{yllb,jdbcType=CHAR},
+		pay_type = #{zffs,jdbcType=CHAR},
+		refund_status = #{refund_status,jdbcType=CHAR},
+		reserved = #{reserved,jdbcType=CHAR}
+	</insert>
+	
+	<update id="updateByCfsb" parameterType="map">
+	    update bz_pay_order
+	    <set>
+		  <!--<if test="his_paystatus != 1">
+	        his_paystatus = #{his_paystatus,jdbcType=CHAR},
+	        third_paystatus =  #{third_paystatus,jdbcType=CHAR},
+	      </if>-->   
+	    cfsb =#{cfsb,jdbcType=VARCHAR},
+		hjje=#{hjje,jdbcType=CHAR},
+		brid=#{brid,jdbcType=CHAR},
+		his_paystatus=#{his_paystatus,jdbcType=CHAR}, 
+		third_paystatus=#{third_paystatus,jdbcType=CHAR},
+		name=#{name,jdbcType=VARCHAR}, 
+		buyertel=#{buyertel,jdbcType=CHAR},
+		kdrq=#{kdrq,jdbcType=CHAR},
+		yllb=#{yllb,jdbcType=CHAR},
+		zffs=#{zffs,jdbcType=CHAR},
+		reserved=#{reserved,jdbcType=CHAR},
+	    </set>
+	    where recipel_num = #{cfsb,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 数据库更新 -->
+	<update id="updateOrderByCfsb" parameterType="map">
+	    update bz_pay_order
+	    <set>
+		  <!--<if test="his_paystatus != 1">
+	        his_paystatus = #{his_paystatus,jdbcType=CHAR},
+	        third_paystatus =  #{third_paystatus,jdbcType=CHAR},
+	      </if>-->
+	      	his_paystatus = #{his_paystatus,jdbcType=CHAR},
+	        third_paystatus =  #{third_paystatus,jdbcType=CHAR},
+	        pay_type = #{zffs,jdbcType=CHAR},
+	        recipel_num = #{cfsb,jdbcType=VARCHAR},
+	        pay_orderid = #{pay_orderid,jdbcType=VARCHAR},
+	        refund_status = #{refund_status,jdbcType=CHAR},
+	        third_refundid = #{third_refundid,jdbcType=VARCHAR},
+	    </set>
+	    where recipel_num = #{cfsb,jdbcType=VARCHAR}
+	</update>
+</mapper>

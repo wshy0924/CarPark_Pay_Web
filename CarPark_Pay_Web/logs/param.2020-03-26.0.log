@@ -1,0 +1,15 @@
+08:57:24.120 [main] INFO  c.g.pay.AggPayWebApplicationTests - Starting AggPayWebApplicationTests on LAPTOP-DHQVS64H with PID 18556 (started by asus in F:\SpringBootProject\TC_agg-pay-web)
+08:57:24.121 [main] INFO  c.g.pay.AggPayWebApplicationTests - The following profiles are active: dev2
+08:57:32.275 [main] INFO  c.g.pay.AggPayWebApplicationTests - Started AggPayWebApplicationTests in 9.527 seconds (JVM running for 11.66)
+09:29:39.959 [main] INFO  c.g.pay.AggPayWebApplicationTests - Starting AggPayWebApplicationTests on LAPTOP-DHQVS64H with PID 17020 (started by asus in F:\SpringBootProject\TC_agg-pay-web)
+09:29:39.968 [main] INFO  c.g.pay.AggPayWebApplicationTests - The following profiles are active: dev2
+09:29:44.677 [main] INFO  c.g.pay.AggPayWebApplicationTests - Started AggPayWebApplicationTests in 5.158 seconds (JVM running for 5.777)
+09:39:29.863 [main] INFO  c.g.pay.AggPayWebApplicationTests - Starting AggPayWebApplicationTests on LAPTOP-DHQVS64H with PID 28940 (started by asus in F:\SpringBootProject\TC_agg-pay-web)
+09:39:29.923 [main] INFO  c.g.pay.AggPayWebApplicationTests - The following profiles are active: dev2
+09:39:34.060 [main] INFO  c.g.pay.AggPayWebApplicationTests - Started AggPayWebApplicationTests in 4.756 seconds (JVM running for 5.439)
+09:54:44.173 [main] INFO  c.g.pay.AggPayWebApplicationTests - Starting AggPayWebApplicationTests on LAPTOP-DHQVS64H with PID 30132 (started by asus in F:\SpringBootProject\TC_agg-pay-web)
+09:54:44.199 [main] INFO  c.g.pay.AggPayWebApplicationTests - The following profiles are active: dev2
+09:54:47.795 [main] INFO  c.g.pay.AggPayWebApplicationTests - Started AggPayWebApplicationTests in 4.076 seconds (JVM running for 4.741)
+09:59:17.524 [main] INFO  c.g.pay.AggPayWebApplicationTests - Starting AggPayWebApplicationTests on LAPTOP-DHQVS64H with PID 12312 (started by asus in F:\SpringBootProject\TC_agg-pay-web)
+09:59:17.526 [main] INFO  c.g.pay.AggPayWebApplicationTests - The following profiles are active: dev2
+09:59:21.098 [main] INFO  c.g.pay.AggPayWebApplicationTests - Started AggPayWebApplicationTests in 4.035 seconds (JVM running for 4.711)

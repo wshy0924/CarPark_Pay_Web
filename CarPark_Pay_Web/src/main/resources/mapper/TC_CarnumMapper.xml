@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tc_car">
+	<resultMap id="CAR_BaseResultMap" type="map">
+		<!-- column对应数据库中字段名，property对应实体类中名,进行转化 -->
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="openid" jdbcType="VARCHAR" property="openid" />
+		<result column="car_num" jdbcType="VARCHAR" property="car_num" />
+	</resultMap>
+
+<!-- 	 <sql id="Base_Column_List"> -->
+<!-- 		his_paystatus, third_paystatus -->
+<!-- 	</sql> -->
+    <!-- 数据库查询 -->
+    <select id="selectByOpenid" parameterType="map" resultMap="CAR_BaseResultMap">
+	    select id , openid , car_num
+	    from car_info
+	    <where>
+	     
+	       openid = #{openid,jdbcType=VARCHAR}
+	     
+	    </where>
+	</select>
+	
+	<!-- 数据库插入，不存在时插入，存在时更新数据  针对主键操作，本项目主键是openid，因此，当出现主键重复的插入时，将其信息改为更新插入-->
+	<!-- id:表示此段sql执行语句的唯一标识，也是接口的方法名称 -->
+	<!-- parameterType:表示该sql语句中需要传入的参数， 类型要与对应的接口方法的类型一致 -->
+	<!-- resultMap:定义出参，调用已定义的<resultMap>映射管理器的id值 -->
+	<insert id="insertCarnum" parameterType="map">
+		insert into car_info
+		(car_num, openid)
+		values
+		(
+			#{car_num,jdbcType=VARCHAR},
+			#{openid,jdbcType=VARCHAR}
+		)
+		ON DUPLICATE KEY UPDATE 
+		car_num = #{car_num,jdbcType=VARCHAR},
+		openid = #{openid,jdbcType=VARCHAR}
+		
+	</insert>
+	
+</mapper>
